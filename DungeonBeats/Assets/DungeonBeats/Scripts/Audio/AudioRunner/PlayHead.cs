@@ -8,7 +8,7 @@ using DG.Tweening;
 public class PlayHead : MonoBehaviour {
 
 
-    Rigidbody2D rigidbody;
+    private Rigidbody2D rigidbody;
     public float maxSpeed = 1;
 
     bool grounded = false;
