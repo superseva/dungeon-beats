@@ -12,6 +12,8 @@ public class BeatSynchronizer : MonoBehaviour {
 	public float startDelay = 1f;	// Number of seconds to delay the start of audio playback.
 	public delegate void AudioStartAction(double syncTime);
 	public static event AudioStartAction OnAudioStart;
+    //steva
+    public static double START_SONG_TIME;
 	
 	
 	void Start ()
@@ -19,6 +21,7 @@ public class BeatSynchronizer : MonoBehaviour {
         AudioSource audio = gameObject.GetComponent<AudioSource>();
         double initTime = AudioSettings.dspTime;
 		audio.PlayScheduled(initTime + startDelay);
+        BeatSynchronizer.START_SONG_TIME = initTime + startDelay;
 		if (OnAudioStart != null) {
 			OnAudioStart(initTime + startDelay);
 		}

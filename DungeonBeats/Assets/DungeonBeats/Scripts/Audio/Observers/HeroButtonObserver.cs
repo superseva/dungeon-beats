@@ -20,7 +20,7 @@ public class HeroButtonObserver : MonoBehaviour {
 	
 	void Update ()
     {
-	    if((beatObserver.beatMask & BeatType.OnBeat)==BeatType.OnBeat)
+        if((beatObserver.beatMask & BeatType.DownBeat)==BeatType.DownBeat)
         {
             image.rectTransform.sizeDelta = maxSize;
             image.rectTransform.DOSizeDelta(originalSize, 0.2f).SetEase(Ease.InCubic);

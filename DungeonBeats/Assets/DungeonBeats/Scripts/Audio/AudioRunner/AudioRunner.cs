@@ -33,22 +33,18 @@ private Tween tween;
 
 // Use this for initialization
 void Start () {
-        
         beatObserver = GetComponent<BeatObserver>();
 
         float audioBpm = audioSource.GetComponent<BeatSynchronizer>().bpm;
         fullNoteInSamples = (60f / (audioBpm * BeatDecimalValues.values[(int)BeatValue.WholeBeat])) * audioSource.clip.frequency;
         fullNoteInSecs = fullNoteInSamples / audioSource.clip.frequency;
 
-
-        quarterNoteInSamples = (60f / (audioBpm * BeatDecimalValues.values[(int)beatValue])) * audioSource.clip.frequency;
+        quarterNoteInSamples = (60f / (audioBpm * BeatDecimalValues.values[(int)BeatValue.QuarterBeat])) * audioSource.clip.frequency;
         quarterNoteInSeconds = quarterNoteInSamples / audioSource.clip.frequency;
 
-
-        Debug.Log("FULL NOTE SAMPLE COUNT" + fullNoteInSamples);
-        Debug.Log("FULL NOTES IN SONG" + audioSource.clip.samples/fullNoteInSamples);
-        Debug.Log("FULL Note In Seconds:"+ fullNoteInSecs);
-        
+        //Debug.Log("Q NOTE SAMPLE COUNT" + quarterNoteInSamples);
+        //Debug.Log("Q NOTES IN SONG" + audioSource.clip.samples/quarterNoteInSamples);
+        //Debug.Log("Q Note In Seconds:"+ quarterNoteInSeconds);
     }
 
     // Update is called once per frame
@@ -93,29 +89,6 @@ void Start () {
         tween = transform.DOMoveX(transform.position.x + fullNoteWidth, fullNoteInSecs). SetEase(Ease.Linear);//SetEase(Ease.InOutSine);
                                                                                                               //.SetEase(Ease.Linear);
         wholeNotesCount++;
-
-        
-
-        //Debug.Log(audioSource.timeSamples);
-
-        // transform.position += new Vector3(1 * Time.deltaTime, 0, 0);
-
-        //sampleDif = audioSource.timeSamples - prevSamples;
-        //samplePercentage = sampleDif / fullNoteInSamples;
-        //moveAmount = fullNoteWidth * samplePercentage;
-        //moveAmount = (float) Math.Round((double)moveAmount, 2);
-        //Debug.Log(sampleDif +"..."+ moveAmount);
-        //transform.position += new Vector3(moveAmount*Time.deltaTime,0,0);
-
-        //prevSamples = audioSource.timeSamples;
-
-        //songCurrentTime = (float)audioSource.timeSamples / AudioSettings.outputSampleRate;
-        //songPercent = songCurrentTime / audioSource.clip.length;
-        //quarterModulo = audioSource.timeSamples % quarterNoteInSamples;
-        //quarterSamplePercent = quarterModulo / quarterNoteInSamples;
-        //quarterPixelPercent = quarterSamplePercent * quarterNoteInPixels;
-
-        //transform.Translate(new Vector3(1,0,0) * Time.deltaTime);
 
     }
 }
