@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Remote.unity
     guid: 9e56f01ab4e9746a9ad3ad3f4b221d9c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game.unity
     guid: 3790ba6ebe4c18f42b81e68d42ea6240
+  - enabled: 1
+    path: Assets/Scenes/Sequencer.unity
+    guid: 3aacbf66e0db94a47ab50114026af84c

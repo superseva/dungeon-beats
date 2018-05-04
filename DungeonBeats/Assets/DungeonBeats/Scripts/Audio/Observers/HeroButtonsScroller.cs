@@ -15,13 +15,13 @@ public class HeroButtonsScroller : MonoBehaviour {
     public int startDelay = 3;
     //public int paternFrequency = 16;
 
-    private BeatObserver beatObserver;
-    private int beatCount = 0;
-    private int paternCount = 0;
+    private BeatObserverSequenced beatObserver;
+
     private int repositioningCount = 0;
     public Dictionary<int, int> movementBeats = new Dictionary<int, int>();
     private Dictionary<int, int> positioningBeats = new Dictionary<int, int>();
     private Dictionary<int, int> swapCharacterBeats = new Dictionary<int, int>();
+    private Dictionary<int, int> hitCharacterBeats = new Dictionary<int, int>();
     private Image icoToReposition;
     private Vector2 icoSize = new Vector2(70, 70);
 
@@ -29,31 +29,33 @@ public class HeroButtonsScroller : MonoBehaviour {
     {
         
         movementBeats.Add(2, 1);
-        movementBeats.Add(4, 1);
         movementBeats.Add(6, 1);
-        movementBeats.Add(8, 1);
-        movementBeats.Add(16, 1);
+        movementBeats.Add(10, 1);
+        movementBeats.Add(14, 1);
+        movementBeats.Add(30, 1);
 
         // POSITIONING ICONS
-        positioningBeats.Add(9, 1);
-        positioningBeats.Add(10, 1);
-        positioningBeats.Add(11, 1);
-        positioningBeats.Add(12, 1);
+        positioningBeats.Add(16, 1);
+        positioningBeats.Add(20, 1);
+        positioningBeats.Add(24, 1);
+        positioningBeats.Add(28, 1);
 
         //SWAPING CHARACTERS ON EVENT BEATS
         swapCharacterBeats.Add(2, 1);
-        swapCharacterBeats.Add(4, 1);
         swapCharacterBeats.Add(6, 1);
-        swapCharacterBeats.Add(16, 1);
+        swapCharacterBeats.Add(10, 1);
+        swapCharacterBeats.Add(14, 1);
 
-        beatObserver = GetComponent<BeatObserver>();
-        Reset();
+        hitCharacterBeats.Add(0, 1);
+        hitCharacterBeats.Add(4, 1);
+        hitCharacterBeats.Add(8, 1);
+        hitCharacterBeats.Add(12, 1);
+
+        beatObserver = GetComponent<BeatObserverSequenced>();
+     
 	}
 
-    private void Reset()
-    {
-        beatCount = 0;
-    }
+
 
     private void OrganizeIcons()
     {
@@ -79,19 +81,23 @@ public class HeroButtonsScroller : MonoBehaviour {
     // use for movement
     private void OnUpBeat()
     {
-        if (movementBeats.ContainsKey(paternCount))
-        {
+        //if (movementBeats.ContainsKey(paternCount))
+        //{
             foreach (Image ico in icons)
             {
                 ico.rectTransform.DOAnchorPos(ico.rectTransform.anchoredPosition - icoDistance, 0.1f);
 
             }
-        }
+       // }
 
-        if(swapCharacterBeats.ContainsKey(paternCount)){
+        //if(swapCharacterBeats.ContainsKey(paternCount)){
             //SWAP TO NEXT CHARACTER
-            GameEvents.SwitchCharacterToTapEvent();
-        }
+            //GameEvents.SwitchCharacterToTapEvent();
+        //}
+    }
+
+    private void OnSwapCharacters(){
+        GameEvents.SwitchCharacterToTapEvent();
     }
 
     private void OnRepositionIcon()
@@ -105,22 +111,23 @@ public class HeroButtonsScroller : MonoBehaviour {
             repositioningCount = 0;
     }
 
+    int outValue;
     void Update ()
     {
+        
         if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
         {
-            beatCount++;
-            paternCount++;
-            if (paternCount > TurnManager.BeatsInTurn)
-                paternCount = 1;
-
             // POSITION ICONS BACK TO ORIGINAL SPOT
-            if (positioningBeats.ContainsKey(paternCount))
+            if(positioningBeats.TryGetValue(beatObserver.beatInSequence,out outValue ))
                 OnRepositionIcon();
 
-            if (beatCount % 2 == 0 )
+            if (movementBeats.TryGetValue(beatObserver.beatInSequence, out outValue))
                 OnUpBeat();
-            else
+
+            if (swapCharacterBeats.TryGetValue(beatObserver.beatInSequence, out outValue))
+                OnSwapCharacters();
+
+            if (hitCharacterBeats.TryGetValue(beatObserver.beatInSequence, out outValue))
                 OnDownBeat();
         }
     }

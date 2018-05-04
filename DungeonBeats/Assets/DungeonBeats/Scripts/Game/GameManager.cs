@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
         Attack,
         Block,
         Heal,
+        Miss,
         Idle,
         Wait
     }
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour {
         GameEvents.OnSwitchCharacterToTap += SwitchCharacterToTap;
         GameEvents.OnTapCharacterSuccess += OnTapCharacterSuccess;
         GameEvents.OnTapCharacterMiss += OnTapCharacterMiss;
+        GameEvents.OnTapMonsterSuccess += OnTapMonsterSuccess;
+        GameEvents.OnTapMonsterMiss += OnTapMonsterMiss;
 	}
 
 	private void OnDisable()
@@ -59,6 +62,8 @@ public class GameManager : MonoBehaviour {
         GameEvents.OnSwitchCharacterToTap -= SwitchCharacterToTap;
         GameEvents.OnTapCharacterSuccess -= OnTapCharacterSuccess;
         GameEvents.OnTapCharacterMiss -= OnTapCharacterMiss;
+        GameEvents.OnTapMonsterSuccess -= OnTapMonsterSuccess;
+        GameEvents.OnTapMonsterMiss -= OnTapMonsterMiss;
 	}
 
     private void ResetCharacterActions()
@@ -74,15 +79,24 @@ public class GameManager : MonoBehaviour {
      */
     private void SwitchCharacterToTap()
     {
+        // IF CHARACTER DIDN't CHOOSE ACTION PUT IT TO IDLE
+        if (recordedActions[characters[characterIndex]] == CharacterAction.Wait)
+        {
+            recordedActions[characters[characterIndex]] = CharacterAction.Idle;
+        }
+
+        // SELECT NEXT CHARACTER THEN
         if (characterIndex < characters.Length - 1)
         {
             characterIndex++;
         }
         else
         {
+            // back to the first character
             characterIndex = 0;
             ResetCharacterActions();
         }
+        // GET READY TO CLICK NEW CHARACTER
         isCharacterClicked = false;
     }
 
@@ -99,6 +113,8 @@ public class GameManager : MonoBehaviour {
             return;
         recordedActions[GetCharacterForTap()] = CharacterAction.Wait;
         isCharacterClicked = true;
+
+        Debug.Log(GetCharacterForTap().ToString() + " >>>" + recordedActions[GetCharacterForTap()]);
     }
     /* 
      * We fire the event from the TapHeroManager
@@ -110,15 +126,33 @@ public class GameManager : MonoBehaviour {
             return;
         recordedActions[GetCharacterForTap()] = CharacterAction.Idle;
         isCharacterClicked = true;
+
+        Debug.Log(GetCharacterForTap().ToString() + " >>>" + recordedActions[GetCharacterForTap()]);
     }
     /* 
      * We fire the event from the TapMonsterManager
      */
     private void OnTapMonsterSuccess()
     {
+        Debug.Log("HIT");
         if(recordedActions[GetCharacterForTap()]==CharacterAction.Wait){
             recordedActions[GetCharacterForTap()] = CharacterAction.Attack;
         }else{
+            recordedActions[GetCharacterForTap()] = CharacterAction.Idle;
+        }
+    }
+    /* 
+     * We fire the event from the TapMonsterManager
+     */
+    private void OnTapMonsterMiss()
+    {
+        Debug.Log("MISS");
+        if (recordedActions[GetCharacterForTap()] == CharacterAction.Wait)
+        {
+            recordedActions[GetCharacterForTap()] = CharacterAction.Miss;
+        }
+        else
+        {
             recordedActions[GetCharacterForTap()] = CharacterAction.Idle;
         }
     }

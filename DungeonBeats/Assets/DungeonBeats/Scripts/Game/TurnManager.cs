@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using SynchronizerData;
 
-public class TurnManager : MonoBehaviour {
-
+public class TurnManager : MonoBehaviour
+{
     public static TurnManager instance = null;
-    public static int BeatsInTurn = 16;
 
+    public static int BeatsInTurn = 32;
     public BeatValue beatValue = BeatValue.QuarterBeat;
+    public float beatSamples;
     [HideInInspector]
     public int currentBeat = 0;
     public int beatInSequence = 0;
 
-    private BeatObserver beatObserver;
+    private BeatObserverSequenced beatObserver;
     private Dictionary<int, System.Action> actions = new Dictionary<int, System.Action>();
 
 	private void Awake()
@@ -22,6 +23,8 @@ public class TurnManager : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+
+       
 	}
 
     /* GET BEAT INDEX IN SEQUENCE
@@ -51,36 +54,44 @@ public class TurnManager : MonoBehaviour {
 
 	private void Start()
 	{
-        beatObserver = gameObject.GetComponent<BeatObserver>();
+        beatObserver = gameObject.GetComponent<BeatObserverSequenced>();
         currentBeat = 0;
 
-        actions[8] = HeroAction;
-        actions[9] = HeroAction;
-        actions[10] = HeroAction;
-        actions[11] = HeroAction;
+        actions[16] = HeroAction;
+        actions[18] = HeroAction;
+        actions[20] = HeroAction;
+        actions[22] = HeroAction;
 
-        actions[12] = NpcAction;
-        actions[13] = NpcAction;
-        actions[14] = NpcAction;
-        actions[15] = NpcAction;
+        actions[24] = NpcAction;
+        actions[26] = NpcAction;
+        actions[28] = NpcAction;
+        actions[30] = NpcAction;
+
+        beatSamples = TempoUtils.instance.GetBeatInSamples(beatValue);
+
+        Debug.Log("SAMPLES IN BEAT " + beatSamples);
 	}
 
     private void HeroAction(){
-        Debug.Log("HERO ACTION");
+        //Debug.Log("HERO ACTION");
     }
 
     private void NpcAction(){
-        Debug.Log("NPC ACTION");
+        //Debug.Log("NPC ACTION");
     }
 
+    System.Action outVal;
 	private void Update()
 	{
         if((beatObserver.beatMask & BeatType.DownBeat)==BeatType.DownBeat){
-            beatInSequence = currentBeat % BeatsInTurn;
-            if(actions.ContainsKey(beatInSequence)){
-                actions[beatInSequence]();
+            //beatInSequence = currentBeat % BeatsInTurn;
+            currentBeat = beatObserver.currentBeat;
+            beatInSequence = beatObserver.beatInSequence;
+            if(actions.TryGetValue(beatObserver.beatInSequence, out outVal)){
+                actions[beatObserver.beatInSequence]();
             }
-            currentBeat++;
+
+            //currentBeat++;
         }
 	}
 

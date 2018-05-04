@@ -6,30 +6,28 @@ using SynchronizerData;
 
 public class HeroTapManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    //public AudioSource audioSource;
     public float samplesMissTreshold = 2500;
-    private float beatSamples;
     private Dictionary<int, int> tapBeats = new Dictionary<int, int>();
     private int beatInSequence;
     private int currentBeat;
 
     void Start()
     {
-        float audioBpm = audioSource.GetComponent<BeatSynchronizer>().bpm;
-        beatSamples = (60f / (audioBpm * BeatDecimalValues.values[(int)BeatValue.QuarterBeat])) * audioSource.clip.frequency;
         tapBeats.Add(0, 1);
-        tapBeats.Add(1, 1);
-        tapBeats.Add(2, 1);
-        tapBeats.Add(3, 1);
+        tapBeats.Add(4, 1);
+        tapBeats.Add(8, 1);
+        tapBeats.Add(12, 1);
     }
 
     public void HeroButtonOnTap()
     {
-        beatInSequence = TurnManager.GetBeatInSequenceAprox(TurnManager.BeatsInTurn, audioSource.timeSamples, beatSamples);
+        beatInSequence = TurnManager.GetBeatInSequenceAprox(TurnManager.BeatsInTurn, TempoUtils.instance.audioSource.timeSamples, TurnManager.instance.beatSamples);
         if (tapBeats.ContainsKey(beatInSequence))
         {
-            currentBeat = TurnManager.GetCurrentBeatAprox(audioSource.timeSamples, beatSamples);
-            float diff = (currentBeat * beatSamples) - audioSource.timeSamples;
+            currentBeat = TurnManager.GetCurrentBeatAprox(TempoUtils.instance.audioSource.timeSamples, TurnManager.instance.beatSamples);
+            float diff = (currentBeat * TurnManager.instance.beatSamples) - (TempoUtils.instance.audioSource.timeSamples-TempoUtils.instance.compensation);
+            //Debug.Log(beatInSequence + "" + diff);
             if (Mathf.Abs(diff) < samplesMissTreshold)
             {
                 // HIT ON TIME
@@ -45,6 +43,16 @@ public class HeroTapManager : MonoBehaviour
 
     void Update()
     {
+
+        #if UNITY_EDITOR
+            
+        if(Input.GetKeyDown(KeyCode.Space)){
+            HeroButtonOnTap();
+        }
+
+        #endif
+
+
         if (Input.touchCount > 0)
         {
             foreach (Touch touch in Input.touches)

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - HitBtn
+  - Monster
+  - HitBtnLeft
+  - HitBtnRight
   layers:
   - Default
   - TransparentFX
