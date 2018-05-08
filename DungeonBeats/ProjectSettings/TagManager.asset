@@ -8,6 +8,7 @@ TagManager:
   - Monster
   - HitBtnLeft
   - HitBtnRight
+  - BeatMarker
   layers:
   - Default
   - TransparentFX

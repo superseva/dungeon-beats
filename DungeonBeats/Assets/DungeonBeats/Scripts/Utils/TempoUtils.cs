@@ -64,6 +64,10 @@ public class TempoUtils : MonoBehaviour {
         return (60f / (bpm * BeatDecimalValues.values[(int)beatValue])) * audioSource.clip.frequency;
     }
 
+	public float GetBeatInSeconds(){
+		return 60/bpm;
+	}
+
     public int GetAudioTimeSamples(){
         return audioSource.timeSamples;
     }

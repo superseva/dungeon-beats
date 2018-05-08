@@ -1,12 +1,16 @@
 ﻿<Properties StartupConfiguration="{593383C4-6BDD-5B85-48BC-5630FC99CBCD}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/DungeonBeats/Scripts/Game/RhythmTapManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/DungeonBeats/Scripts/Game/BackgroundScroller.cs">
     <Files>
-      <File FileName="Assets/DungeonBeats/Scripts/Game/RhythmTapManager.cs" Line="28" Column="38" />
-      <File FileName="Assets/DungeonBeats/Scripts/Game/SequenceRecorder.cs" Line="53" Column="6" />
-      <File FileName="Assets/DungeonBeats/Scripts/Game/SequencePlayer.cs" Line="58" Column="15" />
-      <File FileName="Assets/DungeonBeats/Scripts/Game/SequenceCollection.cs" Line="14" Column="54" />
-      <File FileName="Assets/DungeonBeats/Scripts/Game/GameUI.cs" Line="37" Column="40" />
-      <File FileName="Assets/DungeonBeats/Scripts/Events/RhythmEvents.cs" Line="45" Column="45" />
+      <File FileName="Assets/DungeonBeats/Scripts/Game/RhythmTapManager.cs" Line="14" Column="33" />
+      <File FileName="Assets/LeanTouch/Examples/Scripts/LeanSelect.cs" Line="37" Column="61" />
+      <File FileName="Assets/DungeonBeats/Scripts/Sequencer/SequencerUI.cs" Line="11" Column="63" />
+      <File FileName="Assets/DungeonBeats/Scripts/Test/HeroAnimTest.cs" Line="62" Column="33" />
+      <File FileName="Assets/DungeonBeats/Scripts/Game/SequencePlayer.cs" Line="45" Column="3" />
+      <File FileName="Assets/DungeonBeats/Scripts/Events/RhythmEvents.cs" Line="44" Column="34" />
+      <File FileName="Assets/DungeonBeats/Scripts/Game/SequenceRecorder.cs" Line="70" Column="51" />
+      <File FileName="Assets/DungeonBeats/Scripts/Game/RhythmManager.cs" Line="24" Column="5" />
+      <File FileName="Assets/DungeonBeats/Scripts/Game/BackgroundScroller.cs" Line="34" Column="59" />
+      <File FileName="Assets/DungeonBeats/Scripts/Utils/TempoUtils.cs" Line="67" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

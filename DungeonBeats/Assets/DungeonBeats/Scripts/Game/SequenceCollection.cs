@@ -8,7 +8,6 @@ public class SequenceCollection:MonoBehaviour {
     public enum HeroAction{ MoveForward, MoveBackwards, Attack, Defend, Heal, Buff, Idle, None };
     
     public Dictionary<HeroAction, List<int>> ALL_SEQUENCES = new Dictionary<HeroAction, List<int>>();
-
     public List<int> idle = new List<int>();
     public List<int> moveForward = new List<int>();
     public List<int> moveBackwards = new List<int>();
@@ -17,19 +16,24 @@ public class SequenceCollection:MonoBehaviour {
     public List<int> heal = new List<int>();
     public List<int> buff = new List<int>();
 
+    public Dictionary<HeroAction, List<int>> POOL_OF_BEATS = new Dictionary<HeroAction, List<int>>();
+    public List<int> attackPool = new List<int>();
+    public List<int> defendPool = new List<int>();
+    public List<int> healPool = new List<int>();
+    public List<int> buffPool = new List<int>();
+
 	private void Awake()
 	{
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
-	}
 
-	void Start(){
         ALL_SEQUENCES[HeroAction.Idle] = idle;
         ALL_SEQUENCES[HeroAction.MoveForward] = moveForward;
         ALL_SEQUENCES[HeroAction.MoveBackwards] = moveBackwards;
@@ -37,6 +41,15 @@ public class SequenceCollection:MonoBehaviour {
         ALL_SEQUENCES[HeroAction.Defend] = defend;
         ALL_SEQUENCES[HeroAction.Heal] = heal;
         ALL_SEQUENCES[HeroAction.Buff] = buff;
+
+        POOL_OF_BEATS[HeroAction.Attack] = attackPool;
+        POOL_OF_BEATS[HeroAction.Defend] = defendPool;
+        POOL_OF_BEATS[HeroAction.Heal] = healPool;
+        POOL_OF_BEATS[HeroAction.Buff] = buffPool;
+	}
+
+	void Start(){
+        
     }
 
     List<int> searchedSequence;
