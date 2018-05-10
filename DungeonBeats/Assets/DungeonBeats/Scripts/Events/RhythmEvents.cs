@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RhythmEvents : MonoBehaviour {
 
+    // TAP LEFT OR RIGHT BUTTON
     public delegate void TapEventSequenced(int beatInSequence, int tapFinger);
     public static event TapEventSequenced OnTapEventSequenced;
     public static void TapEventSequencedEvent(int beatInSequence, int tapFinger)

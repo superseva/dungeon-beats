@@ -21,12 +21,16 @@ public class RhythmTapManager : MonoBehaviour {
 	}
 
     private void TapLeft(){
+		NativeAudioPlayer.Instance.PlaySound(0);
+
         beatInSequence = TempoUtils.instance.GetBeatInSequenceAprox(8, beatInSamples);
         RhythmEvents.TapEventSequencedEvent(beatInSequence, 1);
 
         //Debug.Log("LEFT " + beatInSequence);
     }
     private void TapRight(){
+		NativeAudioPlayer.Instance.PlaySound(1);
+
         beatInSequence = TempoUtils.instance.GetBeatInSequenceAprox(8, beatInSamples);
         RhythmEvents.TapEventSequencedEvent(beatInSequence, 2);
 
